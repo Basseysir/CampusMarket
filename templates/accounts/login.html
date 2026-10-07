@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="max-w-md mx-auto bg-white p-6 rounded-lg shadow-sm border mt-8">
+    <h2 class="text-2xl font-bold text-gray-900 mb-2">Student Login</h2>
+    <p class="text-sm text-gray-500 mb-6">Welcome back! Sign in to manage your listings.</p>
+
+    <form method="POST" class="space-y-4">
+        {% csrf_token %}
+        {% if form.non_field_errors %}
+            <div class="p-3 bg-red-50 border border-red-200 text-red-600 text-xs rounded-md">
+                {% for error in form.non_field_errors %}
+                    <p>{{ error }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <div>
+            <label class="block text-xs font-semibold uppercase text-gray-700 mb-1">Username</label>
+            {{ form.username }}
+        </div>
+
+        <div>
+            <label class="block text-xs font-semibold uppercase text-gray-700 mb-1">Password</label>
+            {{ form.password }}
+        </div>
+
+        <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 rounded-md transition mt-4">
+            Sign In
+        </button>
+    </form>
+
+    <p class="text-xs text-center text-gray-500 mt-4">
+        Don't have an account yet? <a href="{% url 'register' %}" class="text-indigo-600 font-semibold hover:underline">Register here</a>
+    </p>
+</div>
+{% endblock %}

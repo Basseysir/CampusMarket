@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="max-w-xl mx-auto bg-white p-6 rounded-lg shadow-sm border mt-4">
+    <h2 class="text-2xl font-bold text-gray-900 mb-2">{{ title|default:"List an Item" }}</h2>
+    <p class="text-sm text-gray-500 mb-6">Fill in the details below to upload your item to CampusMarket.</p>
+
+    <form method="POST" enctype="multipart/form-data" class="space-y-4">
+        {% csrf_token %}
+        
+        <div>
+            <label class="block text-xs font-semibold uppercase text-gray-700 mb-1">Product Title</label>
+            {{ form.title }}
+        </div>
+
+        <div class="grid grid-cols-2 gap-4">
+            <div>
+                <label class="block text-xs font-semibold uppercase text-gray-700 mb-1">Category</label>
+                {{ form.category }}
+            </div>
+            <div>
+                <label class="block text-xs font-semibold uppercase text-gray-700 mb-1">Condition</label>
+                {{ form.condition }}
+            </div>
+        </div>
+
+        <div>
+            <label class="block text-xs font-semibold uppercase text-gray-700 mb-1">Price (₦)</label>
+            {{ form.price }}
+        </div>
+
+        <div>
+            <label class="block text-xs font-semibold uppercase text-gray-700 mb-1">Description</label>
+            {{ form.description }}
+        </div>
+
+        <div>
+            <label class="block text-xs font-semibold uppercase text-gray-700 mb-1">Product Image</label>
+            {{ form.image }}
+        </div>
+
+        <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2.5 rounded-md transition mt-4">
+            Save & Publish Listing
+        </button>
+    </form>
+</div>
+{% endblock %}

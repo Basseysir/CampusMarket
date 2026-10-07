@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="bg-white rounded-lg shadow-sm border p-6 max-w-4xl mx-auto grid md:grid-cols-2 gap-8">
+    <div>
+        <img src="{{ product.image.url }}" alt="{{ product.title }}" class="w-full h-80 object-cover rounded-md">
+    </div>
+    <div class="flex flex-col justify-between">
+        <div>
+            <span class="text-xs font-semibold uppercase px-2.5 py-1 bg-indigo-100 text-indigo-700 rounded">{{ product.get_condition_display }}</span>
+            <h1 class="text-2xl font-bold mt-2 text-gray-900">{{ product.title }}</h1>
+            <p class="text-3xl font-black text-indigo-600 my-3">₦{{ product.price }}</p>
+            <p class="text-gray-700 text-sm leading-relaxed mb-4">{{ product.description }}</p>
+            
+            <div class="border-t pt-4 text-xs text-gray-500 space-y-1">
+                <p><strong>Seller:</strong> {{ product.seller.username }}</p>
+                <p><strong>Location:</strong> {{ product.seller.hostel_location }}</p>
+                <p><strong>Posted:</strong> {{ product.created_at|date:"M d, Y" }}</p>
+            </div>
+        </div>
+
+        <div class="mt-6">
+            {% if product.seller.phone_number %}
+            <a href="{{ whatsapp_url }}" target="_blank" class="w-full block text-center bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 rounded-md transition">
+                Contact Seller via WhatsApp
+            </a>
+            {% else %}
+            <p class="text-sm text-gray-500 italic">No direct contact phone available for this seller.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
