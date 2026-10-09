@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+from urllib.parse import quote
 # Create your models here.
 
 
@@ -37,6 +38,23 @@ class Product(models.Model):
     condition = models.CharField(max_length=20, choices=CONDITION_CHOICES, default='like_new')
     is_sold = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
+
+    # In listings/models.py (inside your Product model class)
+
+    def get_whatsapp_url(self):
+        if self.seller.phone_number:
+            # Clean non-digit characters for WhatsApp API
+            phone = "".join(filter(str.isdigit, self.seller.phone_number))
+            if phone.startswith('0'):
+                phone = '234' + phone[1:] # Adjust country code if needed (e.g., Nigeria +234)
+            message = f"Hello, I am interested in your item '{self.title}' listed on CampusMarket for ₦{self.price}."
+            return f"https://wa.me/{phone}?text={quote(message)}"
+        return "#"
+
+    def get_call_url(self):
+        if self.seller.phone_number:
+            return f"tel:{self.seller.phone_number}"
+        return "#"
 
     def __str__(self):
         return self.title
