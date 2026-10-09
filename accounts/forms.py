@@ -11,12 +11,19 @@ class StudentSignUpForm(UserCreationForm):
         model = CustomUser
         fields = ('username', 'email', 'phone_number', 'hostel_location')
 
-class StudentLoginForm(AuthenticationForm):
-    username = forms.CharField(widget=forms.TextInput(attrs={'class': 'w-full p-2 border rounded-md'}))
-    password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'w-full p-2 border rounded-md'}))
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Automatically inject Tailwind styles into ALL form inputs
+        for field_name, field in self.fields.items():
+            field.widget.attrs.update({
+                'class': 'w-full border border-slate-300 rounded-xl px-3.5 py-2.5 text-sm text-slate-800 bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition shadow-sm mt-1'
+            })
 
-# Example snippet in forms.py if using a ModelForm/UserCreationForm
-def __init__(self, *args, **kwargs):
-    super().__init__(*args, **kwargs)
-    for field_name, field in self.fields.items():
-        field.widget.attrs['class'] = 'w-full border border-slate-300 rounded-xl px-3.5 py-2.5 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition'
+class StudentLoginForm(AuthenticationForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Also style login fields automatically
+        for field_name, field in self.fields.items():
+            field.widget.attrs.update({
+                'class': 'w-full border border-slate-300 rounded-xl px-3.5 py-2.5 text-sm text-slate-800 bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition shadow-sm mt-1'
+            })
